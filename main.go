@@ -19,4 +19,20 @@ func main() {
 	}
 
 	folders.PrettyPrint(res)
+
+	paginatedRes, err := folders.GetAllFoldersPaginated(req, 10, "")
+	if err != nil {
+		fmt.Printf("%v", err)
+		return
+	}
+
+	folders.PrettyPrint(paginatedRes)
+
+	paginatedRes, err = folders.GetAllFoldersPaginated(req, 5, "MTA=")
+	if err != nil {
+		fmt.Printf("%v", err)
+		return
+	}
+
+	folders.PrettyPrint(paginatedRes)
 }

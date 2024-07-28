@@ -4,26 +4,26 @@ import (
 	"github.com/gofrs/uuid"
 )
 
+// GetAllFolders retrieves all folders for a given organization ID
+// improvements that are implemented:
+//  1. use more descriptive variable names.
+//  2. remove unused variables.
+//  3. apply error handling for `FetchAllFoldersByOrgID` function call.
+//  4. Improve readability by removing redundant code and make code more straightforward. e.g:
+//     4.1. remove `f` and `fp` variables to avoid redundancy.
+//     4.2. merge `ffr` variable declaration with assignment.
+// 	   4.3. remove unecessary loops and conversions.
 func GetAllFolders(req *FetchFolderRequest) (*FetchFolderResponse, error) {
-	var (
-		err error
-		f1  Folder
-		fs  []*Folder
-	)
-	f := []Folder{}
-	r, _ := FetchAllFoldersByOrgID(req.OrgID)
-	for k, v := range r {
-		f = append(f, *v)
+	folders, err := FetchAllFoldersByOrgID(req.OrgID)
+	if err != nil {
+		return nil, err
 	}
-	var fp []*Folder
-	for k1, v1 := range f {
-		fp = append(fp, &v1)
-	}
-	var ffr *FetchFolderResponse
-	ffr = &FetchFolderResponse{Folders: fp}
+
+	ffr := &FetchFolderResponse{Folders: folders}
 	return ffr, nil
 }
 
+// FetchAllFoldersByOrgID retrieves folders filtered by organization ID
 func FetchAllFoldersByOrgID(orgID uuid.UUID) ([]*Folder, error) {
 	folders := GetSampleData()
 
